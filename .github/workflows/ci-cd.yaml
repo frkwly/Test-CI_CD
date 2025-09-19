@@ -35,7 +35,7 @@ jobs:
     # Publier l'application en self-contained
     - name: Publish .NET
       env:
-        NODE_OPTIONS: --openssl-legacy-provider   # ⚡ Fix pour Node/OpenSSL
+        NODE_OPTIONS: --openssl-legacy-provider   # Fix pour Node/OpenSSL
       run: dotnet publish "Angular-and-ASP.NET-Core-Sample-App.csproj" -c Release -o ./publish --self-contained -r linux-x64 /p:UseAppHost=true
 
     # Compresser les fichiers publiés
@@ -48,3 +48,25 @@ jobs:
       with:
         name: dotnet-webapp
         path: app.zip
+      
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dotnet-webapp
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Deploy to Azure
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: app-wiredbrainapi
+          package: app.zip
+
