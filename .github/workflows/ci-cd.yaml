@@ -21,4 +21,18 @@ jobs:
 
     - id: build
       name: build
-      run: dotnet build Angular-and-ASP.NET-Core-Sample-App.csproj --no-restore
+      run: dotnet build Angular-and-ASP.NET-Core-Sample-App.csproj --no-restor
+
+    - id: build
+      name: Publish
+      run: dotnet publish "Angular-and-ASP.NET-Core-Sample-App.csproj" -c Relaease -o ./publish --self-contained -r linux-x64 /p:UseAppHost
+
+    - name: Zip Artifact
+      run: zip app.zip ./publish
+
+    - id: upload
+      name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: dotnet-webapp
+        path: app.zip
