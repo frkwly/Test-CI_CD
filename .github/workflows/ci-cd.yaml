@@ -14,11 +14,11 @@ jobs:
     - name: Setup .Net
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 8.0.204
+        dotnet-version: 8.0.x
 
     - name: Restore Dependencies
       run: dotnet Restore
 
     - id: build
       name: build
-      run: dotnet build --no-retore
+      run: dotnet build --no-restore
