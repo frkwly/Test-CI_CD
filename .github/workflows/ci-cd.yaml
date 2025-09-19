@@ -23,7 +23,7 @@ jobs:
       name: build
       run: dotnet build Angular-and-ASP.NET-Core-Sample-App.csproj --no-restor
 
-    - id: build
+    - id: publish
       name: Publish
       run: dotnet publish "Angular-and-ASP.NET-Core-Sample-App.csproj" -c Relaease -o ./publish --self-contained -r linux-x64 /p:UseAppHost
 
