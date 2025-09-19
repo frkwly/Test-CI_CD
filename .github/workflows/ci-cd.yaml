@@ -21,7 +21,7 @@ jobs:
 
     - id: build
       name: build
-      run: dotnet build Angular-and-ASP.NET-Core-Sample-App.csproj --no-restor
+      run: dotnet build Angular-and-ASP.NET-Core-Sample-App.csproj --no-restore
 
     - id: publish
       name: Publish
