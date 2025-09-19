@@ -25,7 +25,7 @@ jobs:
 
     - id: publish
       name: Publish
-      run: dotnet publish "Angular-and-ASP.NET-Core-Sample-App.csproj" -c Relaease -o ./publish --self-contained -r linux-x64 /p:UseAppHost
+      run: dotnet publish "Angular-and-ASP.NET-Core-Sample-App.csproj" -c Releaase -o ./publish --self-contained -r linux-x64 /p:UseAppHost=true
 
     - name: Zip Artifact
       run: zip app.zip ./publish
