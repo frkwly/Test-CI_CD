@@ -17,7 +17,7 @@ jobs:
         dotnet-version: 8.0.x
 
     - name: Restore Dependencies
-      run: dotnet Restore
+      run: dotnet restore Angular-and-ASP.NET-Core-Sample-App.csproj
 
     - id: build
       name: build
