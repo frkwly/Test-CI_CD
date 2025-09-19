@@ -1,4 +1,4 @@
-name: agular & asp core sample
+name: angular & asp core sample
 
 on:
   workflow_dispatch:
@@ -11,27 +11,39 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Setup .Net
+
+    # Installer Node.js pour le build Angular
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20.x
+
+    # Installer .NET SDK
+    - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
 
-    - name: Restore Dependencies
+    # Restaurer les dépendances .NET
+    - name: Restore .NET Dependencies
       run: dotnet restore Angular-and-ASP.NET-Core-Sample-App.csproj
 
-    - id: build
-      name: build
+    # Build .NET
+    - name: Build .NET
       run: dotnet build Angular-and-ASP.NET-Core-Sample-App.csproj --no-restore
 
-    - id: publish
-      name: Publish
-      run: dotnet publish "Angular-and-ASP.NET-Core-Sample-App.csproj" -c Releaase -o ./publish --self-contained -r linux-x64 /p:UseAppHost=true
+    # Publier l'application en self-contained
+    - name: Publish .NET
+      env:
+        NODE_OPTIONS: --openssl-legacy-provider   # ⚡ Fix pour Node/OpenSSL
+      run: dotnet publish "Angular-and-ASP.NET-Core-Sample-App.csproj" -c Release -o ./publish --self-contained -r linux-x64 /p:UseAppHost=true
 
+    # Compresser les fichiers publiés
     - name: Zip Artifact
-      run: zip app.zip ./publish
+      run: zip -r app.zip ./publish
 
-    - id: upload
-      name: Upload Artifact
+    # Upload de l'artefact
+    - name: Upload Artifact
       uses: actions/upload-artifact@v4
       with:
         name: dotnet-webapp
